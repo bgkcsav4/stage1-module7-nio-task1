@@ -8,9 +8,9 @@ import java.nio.file.Paths;
 
 public class FileReader {
 
-    public Profile getDataFromFile(File file) {
+    public Profile getDataFromFile(File file) throws FileReadException {
         String content;
-        String[] res = new String[0];
+        String[] res;
 
         try {
             Path filePath = Paths.get(file.getPath());
@@ -18,7 +18,7 @@ public class FileReader {
             content = new String(bytes);
             res = finalContent(content);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new FileReadException("Error while reading file: " + e.getMessage(), e);
         }
 
         return new Profile(res[0], Integer.parseInt(res[1]), res[2], Long.parseLong(res[3]));
