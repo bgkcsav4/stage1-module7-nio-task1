@@ -1,10 +1,9 @@
 package com.epam.mjc.nio;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
-
 
 public class FileReader {
 
@@ -12,9 +11,8 @@ public class FileReader {
         String content;
         String[] res;
 
-        try {
-            Path filePath = Paths.get(file.getPath());
-            byte[] bytes = Files.readAllBytes(filePath);
+        try (FileInputStream fileInputStream = new FileInputStream(file.getPath())) {
+            byte[] bytes = Files.readAllBytes(Paths.get(file.getPath()));
             content = new String(bytes);
             res = finalContent(content);
         } catch (IOException e) {
